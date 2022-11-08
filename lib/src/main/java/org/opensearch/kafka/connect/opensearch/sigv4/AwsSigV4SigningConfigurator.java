@@ -11,13 +11,10 @@ import io.aiven.kafka.connect.opensearch.spi.ConfigDefContributor;
 import io.aiven.kafka.connect.opensearch.spi.OpensearchClientConfigurator;
 import io.aiven.kafka.connect.opensearch.OpensearchSinkConnectorConfig;
 
-import com.google.auto.service.AutoService;
-import org.apache.hc.client5.http.impl.async.HttpAsyncClientBuilder;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.auth.signer.Aws4UnsignedPayloadSigner;
 
-@AutoService(OpensearchClientConfigurator.class)
-@AutoService(ConfigDefContributor.class)
 public class AwsSigV4SigningConfigurator implements OpensearchClientConfigurator, ConfigDefContributor {
     protected static final String CONNECTION_AUTH_BASIC = "basic";
     protected static final String CONNECTION_AUTH_AWS_IAM = "aws.iam";

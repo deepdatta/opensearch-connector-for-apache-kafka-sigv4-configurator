@@ -9,6 +9,7 @@
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
+    id "com.github.harbby.gradle.serviceloader" version "1.1.8"
 }
 
 java {
@@ -28,6 +29,11 @@ compileJava {
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
+}
+
+serviceLoader {
+    serviceInterface 'io.aiven.kafka.connect.opensearch.spi.ConfigDefContributor'
+    serviceInterface 'io.aiven.kafka.connect.opensearch.spi.OpensearchClientConfigurator'
 }
 
 ext {
@@ -50,7 +56,6 @@ dependencies {
             branch = 'main'
         }
     }
-    implementation 'com.google.auto.service:auto-service-annotations:1.0.1'
     implementation 'com.google.guava:guava:30.1.1-jre'
     implementation 'org.apache.httpcomponents:httpasyncclient:4.1.5'
     implementation "org.slf4j:slf4j-api:$slf4jVersion"
