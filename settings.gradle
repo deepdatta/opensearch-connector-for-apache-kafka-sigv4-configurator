@@ -7,9 +7,10 @@
  * in the user manual at https://docs.gradle.org/7.4.2/userguide/multi_project_builds.html
  */
 
-rootProject.name = 'opensearch-connector-for-apache-kafka-sigv4-configurator'
+rootProject.name = 'opensearch-connector-for-apache-kafka-sigv4'
 include('lib')
 
+// This Project provides a SPI Plugin for aiven/opensearch-connector-for-apache-kafka 
 sourceControl {
     gitRepository("https://github.com/aiven/opensearch-connector-for-apache-kafka.git") {
         producesModule("io.aiven:opensearch-connector-for-apache-kafka")
