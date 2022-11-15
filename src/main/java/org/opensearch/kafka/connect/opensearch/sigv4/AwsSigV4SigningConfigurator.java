@@ -12,10 +12,15 @@ import io.aiven.kafka.connect.opensearch.spi.OpensearchClientConfigurator;
 import io.aiven.kafka.connect.opensearch.OpensearchSinkConnectorConfig;
 
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.auth.signer.Aws4UnsignedPayloadSigner;
 
 public class AwsSigV4SigningConfigurator implements OpensearchClientConfigurator, ConfigDefContributor {
+
+    private static final Logger log = LoggerFactory.getLogger(AwsSigV4SigningConfigurator.class);
+
     protected static final String CONNECTION_AUTH_BASIC = "basic";
     protected static final String CONNECTION_AUTH_AWS_IAM = "aws.iam";
 
@@ -87,6 +92,8 @@ public class AwsSigV4SigningConfigurator implements OpensearchClientConfigurator
                     connectionRegion(config));
             interceptor.skipContentLengthSigning();
             builder.addInterceptorLast(interceptor);
+
+            log.info("Using AWS SigV4 Authentication");
             return true;
         }
 
@@ -108,5 +115,16 @@ public class AwsSigV4SigningConfigurator implements OpensearchClientConfigurator
     static boolean isIamAuthenticatedConnection(final OpensearchSinkConnectorConfig config) {
         return connectionAuthType(config).equals(CONNECTION_AUTH_AWS_IAM) 
                 && Objects.nonNull(connectionRegion(config));
+    }
+
+    public static void main(final String[] args) {
+        final ConfigDef tempConfig = new ConfigDef();
+        final AwsSigV4SigningConfigurator configurator = new AwsSigV4SigningConfigurator();
+        configurator.addConfig(tempConfig);
+        System.out.println("=========================================");
+        System.out.println("AWS SigV4 Configuration Options");
+        System.out.println("=========================================");
+        System.out.println();
+        System.out.println(tempConfig.toEnrichedRst());
     }
 }

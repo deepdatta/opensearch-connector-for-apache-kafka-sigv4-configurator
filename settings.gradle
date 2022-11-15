@@ -8,7 +8,6 @@
  */
 
 rootProject.name = 'opensearch-connector-for-apache-kafka-sigv4'
-include('lib')
 
 // This Project provides a SPI Plugin for aiven/opensearch-connector-for-apache-kafka 
 sourceControl {
